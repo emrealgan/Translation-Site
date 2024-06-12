@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-// Configure NextAuth options
 const options = {
   providers: [
     CredentialsProvider({
@@ -22,6 +21,5 @@ const options = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// Named export for each HTTP method
 export const GET = async (req, res) => NextAuth(req, res, options);
 export const POST = async (req, res) => NextAuth(req, res, options);

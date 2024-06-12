@@ -1,7 +1,6 @@
 "use client"
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
-import { requireAuthentication } from '@/app/lib/auth';
 
 const languages = [
   { code: 'ar', name: 'Arapça' },
@@ -102,4 +101,3 @@ export default function Home() {
   );
 }
 
-export { requireAuthentication as getServerSideProps };

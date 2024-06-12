@@ -1,4 +1,3 @@
-// pages/login.js
 "use client"
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
@@ -14,13 +13,12 @@ export default function Login() {
       redirect: false,
       username,
       password,
+      // callbackUrl: '/',
     });
 
     if (result.error) {
       setError(result.error);
-    } else {
-      window.location.href = '/';
-    }
+    } 
   };
 
   return (
