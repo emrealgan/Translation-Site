@@ -1,5 +1,7 @@
 "use client"
 import { useState } from 'react';
+import { signOut } from 'next-auth/react';
+import { requireAuthentication } from '@/app/lib/auth';
 
 const languages = [
   { code: 'ar', name: 'Arapça' },
@@ -90,6 +92,14 @@ export default function Home() {
           <p>{translatedText}</p>
         </div>
       )}
+      <button
+        className="mt-2 p-2 bg-red-500 text-white"
+        onClick={() => signOut({ callbackUrl: '/login' })}
+      >
+        Logout
+      </button>
     </div>
   );
 }
+
+export { requireAuthentication as getServerSideProps };
