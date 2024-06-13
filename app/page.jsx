@@ -93,7 +93,7 @@ export default function Home() {
       )}
       <button
         className="mt-2 p-2 bg-red-500 text-white"
-        onClick={() => signOut({ callbackUrl: '/login' })}
+        onClick={() => signOut()}
       >
         Logout
       </button>
