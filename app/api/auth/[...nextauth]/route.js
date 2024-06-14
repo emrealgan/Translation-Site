@@ -6,13 +6,13 @@ const handler = NextAuth({
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'E-mail', type: 'text' },
+        eMail: { label: 'E-mail', type: 'e-mail' },
         password: { label: 'Şifre', type: 'password' },
       },
       authorize: async (credentials) => {
         console.log(credentials)
-        if (credentials.username == 'user' && credentials.password == 'pass') {
-          return { id: 1, name: 'User' };
+        if (credentials.eMail == 'emre@' && credentials.password == 'pass') {
+          return { email: 'emrealgan@gmail.com', name: 'Emre' };
         } 
         else {
           return null;

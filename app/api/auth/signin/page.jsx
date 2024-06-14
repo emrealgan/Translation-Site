@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [eMail, setEMail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter()
@@ -12,16 +12,17 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await signIn('credentials', {
-      username: username,
+      eMail: eMail,
       password: password,
-      redirect: false
+      redirect: false,
     });
 
     if (result.error) {
-      setError(result.error);
+      setError("Hatalı kullanıcı adı veya şifre");
     }
-    if(result.ok){
+    else if(result.ok){
       router.push('/');
+      router.refresh();
     }
   };
 
@@ -30,11 +31,11 @@ export default function Login() {
       <h1 className="text-2xl font-bold">Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700">Username</label>
+          <label className="block text-gray-700">E-Mail</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={eMail}
+            onChange={(e) => setEMail(e.target.value)}
             className="w-full p-2 border"
             required
           />

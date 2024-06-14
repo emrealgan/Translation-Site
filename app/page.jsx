@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 const languages = [
   { code: 'ar', name: 'Arapça' },
@@ -15,14 +15,22 @@ const languages = [
   { code: 'uz', name: 'Özbekçe' },
   { code: 'so', name: 'Somalice' },
   { code: 'tr', name: 'Türkçe' },
-];
+];  
 
 export default function Home() {
+  const { data: session, status } = useSession();
+
   const [text, setText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
   const [sourceLanguage, setSourceLanguage] = useState(languages[3].code);
   const [targetLanguage, setTargetLanguage] = useState(languages[11].code);
 
+  if (status === "loading") {
+    return ( <div>Loading...</div> );
+  }
+  if (!session) {
+    return (<div>You are not authenticated.</div>);
+  }
   const handleTranslate = async () => {
     try {
       const res = await fetch('/api/translate', {
@@ -49,6 +57,8 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
+       <p>User ID: {session.user.email}</p>
+       <p>Username: {session.user.name}</p>
       <h1 className="text-2xl font-bold">Tevhidî Mütercim</h1>
       <textarea
         className="w-full p-2 border"
