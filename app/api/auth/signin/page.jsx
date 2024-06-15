@@ -61,11 +61,11 @@ export default function Login() {
       </form>
       <div>
    
-      <Link href="../auth/register">
+      <Link href="../auth/register" className='text-blue-500'>
         Sign Up
       </Link>
       <br/>
-      <Link href="../auth/forgetPass">
+      <Link href="../auth/forgetPass" className='text-blue-500'>
           Forget Password
       </Link>
 

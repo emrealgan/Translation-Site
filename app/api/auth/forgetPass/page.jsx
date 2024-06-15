@@ -15,7 +15,6 @@ export default function Login() {
       setError('Password must be at least 8 characters long and contain at least one uppercase letter.');
       return;
     }
-
   };
 
   return (

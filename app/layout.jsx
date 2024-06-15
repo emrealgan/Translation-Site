@@ -1,7 +1,7 @@
 // app/layout.js
 import '../styles/global.css';
 import React from 'react';
-import SessionProviderWrapper from '@/app/components/Provider';
+import SessionProviderWrapper from '@/app/utils/SessionProvider';
 
 export const metadata = {
   title: "Mütercim",
