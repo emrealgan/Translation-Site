@@ -3,8 +3,10 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
+import connectDB from '@/app/utils/db';
 
 export default function Login() {
+  connectDB();
   const [eMail, setEMail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -66,7 +68,7 @@ export default function Login() {
       </Link>
       <br/>
       <Link href="../auth/forgetPass" className='text-blue-500'>
-          Forget Password
+          Forgot Password
       </Link>
 
       </div>
