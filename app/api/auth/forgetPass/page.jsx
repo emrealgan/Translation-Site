@@ -10,7 +10,11 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const uppercaseRegex = /[A-Z]/;
+    if (password.length < 8 || !uppercaseRegex.test(password)) {
+      setError('Password must be at least 8 characters long and contain at least one uppercase letter.');
+      return;
+    }
 
   };
 
@@ -34,7 +38,7 @@ export default function Login() {
           type="submit"
           className={"mt-2 p-2 bg-blue-500 text-white"}
         >
-          Register with Credentials
+          Update password
         </button>
       </form>
     </div>

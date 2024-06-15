@@ -1,4 +1,3 @@
-"use client"
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -6,9 +5,20 @@ import { useState } from 'react';
 export default function Login() {
   const [eMail, setEMail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // New state for confirmation password
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [passwordValid, setPasswordValid] = useState(false); // State to track password validity
   const router = useRouter();
+
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+    // Check password requirements
+    if (value.length >= 8 && /[A-Z]/.test(value)) {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,18 +28,23 @@ export default function Login() {
       return;
     }
 
-  //   const result = await signIn('credentials', {
-  //     eMail: eMail,
-  //     password: password,
-  //     redirect: false,
-  //   });
+    if (!passwordValid) {
+      setError("Password must be at least 8 characters long and contain at least one uppercase letter");
+      return;
+    }
 
-  //   if (result.error) {
-  //     setError("Invalid email or password");
-  //   } else if (result.ok) {
-  //     router.push('/');
-  //     router.refresh();
-  //   }
+    // const result = await signIn('credentials', {
+    //   eMail: eMail,
+    //   password: password,
+    //   redirect: false,
+    // });
+
+    // if (result.error) {
+    //   setError("Invalid email or password");
+    // } else if (result.ok) {
+    //   router.push('/');
+    //   router.refresh();
+    // }
   };
 
   return (
@@ -51,7 +66,7 @@ export default function Login() {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => handlePasswordChange(e.target.value)}
             className="w-full p-2 border"
             required
           />
@@ -69,8 +84,8 @@ export default function Login() {
         {error && <div className="text-red-500">{error}</div>}
         <button
           type="submit"
-          className={`mt-2 p-2 bg-blue-500 text-white ${password !== confirmPassword ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={password !== confirmPassword} 
+          className={`mt-2 p-2 bg-blue-500 text-white ${password !== confirmPassword || !passwordValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={password !== confirmPassword || !passwordValid} 
         >
           Register with Credentials
         </button>
