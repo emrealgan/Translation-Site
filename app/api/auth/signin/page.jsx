@@ -3,9 +3,9 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
-import connectDB from '@/app/lib/createSchema';
+
 export default function Login() {
-  connectDB();
+
   const [eMail, setEMail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,18 +13,18 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const result = await signIn('credentials', {
-      eMail: eMail,
+      mail: eMail,
       password: password,
       redirect: false,
     });
-
-    if (result.error) {
-      setError("Hatalı kullanıcı adı veya şifre");
-    }
-    else if(result.ok){
+    if(result.ok){
       router.push('/');
       router.refresh();
+    }
+    else if (result.error) {
+      setError("Hatalı kullanıcı adı veya şifre");
     }
   };
 

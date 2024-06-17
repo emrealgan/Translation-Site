@@ -57,8 +57,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
-       <p>User ID: {session.user.email}</p>
-       <p>Username: {session.user.name}</p>
+       <p>User Mail: {session.user.email}</p>
       <h1 className="text-2xl font-bold">Tevhidî Mütercim</h1>
       <textarea
         className="w-full p-2 border"

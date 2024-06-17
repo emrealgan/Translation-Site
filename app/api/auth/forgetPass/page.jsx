@@ -14,6 +14,24 @@ export default function ForgetPass() {
       setError('Password must be at least 8 characters long and contain at least one uppercase letter.');
       return;
     }
+    try {
+      const response = await fetch('/api/database/existMail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: eMail,
+        }),
+      });
+      if(response == null){
+        setError("Mail adresi bulunamadı");
+        return
+      }  
+    } 
+    catch (error) {
+      return error;
+    }
   };
 
   return (

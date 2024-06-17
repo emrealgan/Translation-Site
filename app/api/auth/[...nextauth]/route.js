@@ -1,20 +1,31 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { connectDB, disconnectDB } from '@/app/lib/db';
+import User from '@/app/models/User';
 
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        eMail: { label: 'E-mail', type: 'e-mail' },
+        mail: { label: 'E-mail', type: 'string' },
         password: { label: 'Şifre', type: 'password' },
       },
       authorize: async (credentials) => {
-        console.log(credentials)
-        if (credentials.eMail == 'emre@' && credentials.password == 'pass') {
-          return { email: 'emrealgan@gmail.com', name: 'Emre' };
+        try {
+          await connectDB();
+          const user = await User.findOne({ mail: credentials.mail, password: credentials.password });
+          await disconnectDB();
+
+          if (user) {
+            return { email: user.mail };
+          } 
+          else {
+            return null;
+          }
         } 
-        else {
+        catch (error) {
+          console.error('Error during authorization:', error);
           return null;
         }
       },

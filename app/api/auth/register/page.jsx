@@ -36,9 +36,25 @@ export default function Register() {
       setError("Password and email must not be the same");
       return;
     }
+    try {
+      const response = await fetch('/api/database/existMail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: eMail,
+        }),
+      });
+      if(response == null)
+        setError("Mail adresi kayıtlı")
+    } 
+    catch (error) {
+      return error;
+    }
 
     try {
-      const response = await fetch('/api/database', {
+      const response = await fetch('/api/database/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
