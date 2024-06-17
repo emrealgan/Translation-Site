@@ -3,9 +3,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
-import { connectDB } from '@/app/utils/db';
-import { myModel } from '@/app/lib/createSchema';
-
+import connectDB from '@/app/lib/createSchema';
 export default function Login() {
   connectDB();
   const [eMail, setEMail] = useState('');

@@ -1,9 +1,8 @@
 "use client"
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function Login() {
+export default function ForgetPass() {
   const [eMail, setEMail] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();

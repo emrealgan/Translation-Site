@@ -1,9 +1,8 @@
 "use client"
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function Login() {
+export default function Register() {
   const [eMail, setEMail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,19 +32,33 @@ export default function Login() {
       setError("Password must be at least 8 characters long and contain at least one uppercase letter");
       return;
     }
+    if(eMail == password) {
+      setError("Password and email must not be the same");
+      return;
+    }
 
-    // const result = await signIn('credentials', {
-    //   eMail: eMail,
-    //   password: password,
-    //   redirect: false,
-    // });
-
-    // if (result.error) {
-    //   setError("Invalid email or password");
-    // } else if (result.ok) {
-    //   router.push('/');
-    //   router.refresh();
-    // }
+    try {
+      const response = await fetch('/api/database', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: eMail,
+          password: password,
+        }),
+      });
+      
+      if (response.ok) {
+        console.log('User registered successfully');
+      } 
+      else if(response.status == 500){
+        setError("Email already exist")
+      }
+    } 
+    catch (error) {
+      console.error('Error registering user:', error);
+    }
   };
 
   return (
@@ -90,6 +103,7 @@ export default function Login() {
         >
           Register with Credentials
         </button>
+        
       </form>
     </div>
   );
