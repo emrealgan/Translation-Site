@@ -43,7 +43,7 @@ export default function Register() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: eMail,
+          mail: eMail,
         }),
       });
       if(response == null)
@@ -60,7 +60,7 @@ export default function Register() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: eMail,
+          mail: eMail,
           password: password,
         }),
       });

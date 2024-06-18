@@ -37,7 +37,7 @@ export default function Login() {
           <input
             type="text"
             value={eMail}
-            onChange={(e) => setEMail(e.target.value)}
+            onChange={(e) => setEMail(e.target.value.toLowerCase())}
             className="w-full p-2 border"
             required
           />

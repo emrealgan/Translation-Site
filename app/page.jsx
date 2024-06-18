@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 const languages = [
   { code: 'ar', name: 'Arapça' },
@@ -19,7 +20,6 @@ const languages = [
 
 export default function Home() {
   const { data: session, status } = useSession();
-
   const [text, setText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
   const [sourceLanguage, setSourceLanguage] = useState(languages[3].code);
@@ -31,6 +31,7 @@ export default function Home() {
   if (!session) {
     return (<div>You are not authenticated.</div>);
   }
+  const mail = session.user.email;
   const handleTranslate = async () => {
     try {
       const res = await fetch('/api/translate', {
@@ -38,7 +39,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text, sourceLanguage, targetLanguage }),
+        body: JSON.stringify({ text, sourceLanguage, targetLanguage, mail }),
       });
 
       if (!res.ok) {
@@ -57,7 +58,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
-       <p>User Mail: {session.user.email}</p>
+       <p>User Mail: {mail}</p>
       <h1 className="text-2xl font-bold">Tevhidî Mütercim</h1>
       <textarea
         className="w-full p-2 border"
@@ -106,6 +107,10 @@ export default function Home() {
       >
         Logout
       </button>
+      <Link href="/history" className="mt-2 p-2 bg-green-500 text-white">
+        Translation History
+      </Link>
+
     </div>
   );
 }

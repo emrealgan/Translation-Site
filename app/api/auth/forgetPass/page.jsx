@@ -21,7 +21,7 @@ export default function ForgetPass() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: eMail,
+          mail: eMail,
         }),
       });
       if(response == null){
