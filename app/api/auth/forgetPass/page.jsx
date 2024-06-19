@@ -9,39 +9,49 @@ export default function ForgetPass() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const uppercaseRegex = /[A-Z]/;
-    if (password.length < 8 || !uppercaseRegex.test(password)) {
-      setError('Password must be at least 8 characters long and contain at least one uppercase letter.');
-      return;
-    }
     try {
-      const response = await fetch('/api/database/existMail', {
+      const response = await fetch('/api/existMail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          mail: eMail,
-        }),
+        body: JSON.stringify({ mail: eMail }),
       });
-      if(response == null){
+      
+      const data = await response.json();
+      
+      if (data) {
+        const verifyResponse = await fetch('/api/verifyMail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mail: eMail }),
+        });
+        
+        const verifyData = await verifyResponse.json();
+        
+        if (verifyResponse.ok) {
+          return <div>KOD GİRİNİZ</div>
+        } else {
+          setError(verifyData.error || "Kod gönderilemedi");
+        }
+      } else {
         setError("Mail adresi bulunamadı");
-        return
-      }  
-    } 
-    catch (error) {
-      return error;
+      }
+    } catch (error) {
+      setError("Bir hata oluştu: " + error.message);
     }
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold">Sign Up</h1>
+      <h1 className="text-2xl font-bold">Reset Password</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700">E-Mail</label>
           <input
-            type="text"
+            type="email"
             value={eMail}
             onChange={(e) => setEMail(e.target.value)}
             className="w-full p-2 border"
