@@ -30,6 +30,7 @@
 //     return NextResponse.json({ error: 'Failed to send email' });
 //   }
 // }
+
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { NextResponse } from 'next/server';
@@ -74,3 +75,4 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }
+
