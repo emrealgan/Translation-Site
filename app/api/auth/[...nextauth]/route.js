@@ -5,6 +5,7 @@ import { connectDB, disconnectDB } from '@/app/lib/db';
 import User from '@/app/models/User';
 
 const handler = NextAuth({
+  
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -48,6 +49,9 @@ const handler = NextAuth({
       return token;
     },
   },
+  pages: {
+    signIn: "/auth/login",
+  }
 });
 
 export { handler as GET, handler as POST };
