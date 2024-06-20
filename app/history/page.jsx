@@ -47,11 +47,9 @@ export default function History() {
       <h1 className="text-2xl font-bold">Translation History</h1>
       <div className="mt-4">
         {history.map((item, index) => (
-          <div key={index} className="p-2 border-b">
-            <p><strong>Original Text:</strong> {item.originalText}</p>
-            <p><strong>Translated Text:</strong> {item.translatedText}</p>
-            <p><strong>Source Language:</strong> {item.sourceLanguage}</p>
-            <p><strong>Target Language:</strong> {item.targetLanguage}</p>
+          <div key={index} className="p-2 border-black flex ">
+            <p className="w-1/2 p-2 border">{item.originalText}<i> ({item.sourceLanguage})</i></p>
+            <p className="w-1/2 p-2 border">{item.translatedText}<i> ({item.targetLanguage})</i></p>
             <p><strong>Date:</strong> {new Date(item.date).toLocaleString()}</p>
           </div>
         ))}

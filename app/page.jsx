@@ -62,15 +62,26 @@ export default function Home() {
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center p-2">
         <h1 className="text-2xl font-bold">Mütercim</h1>
-        <button
-          className="mt-2 p-2 bg-red-500 text-white"
-          onClick={() => signOut()}
-        >
-          Logout
-        </button>
+        <div className="flex space-x-4 items-center">
+          <Link
+            href="/history"
+            className="text-center h-10 w-28 bg-green-500 text-white rounded-md text-sm"
+          >
+            Translation History
+          </Link>
+          <button
+            className="text-center h-10 w-20 bg-red-500 text-white rounded-md text-sm"
+            onClick={() => signOut()}
+          >
+            Logout
+          </button>
+        </div>
       </div>
+
+
       <textarea
         className="w-full p-2 border"
+        style={{ resize: "none" }}
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
@@ -99,7 +110,7 @@ export default function Home() {
         </select>
       </div>
       <button
-        className="mt-2 p-2 bg-blue-500 text-white"
+        className="flex items-center justify-center text-center mt-2 p-2 h-8 w-16 bg-blue-500 text-white rounded-md text-sm"
         onClick={handleTranslate}
       >
         Çevir
@@ -111,10 +122,6 @@ export default function Home() {
         </div>
       )}
      
-      <Link href="/history" className="mt-2 p-2 bg-green-500 text-white">
-        Translation History
-      </Link>
-
     </div>
   );
 }

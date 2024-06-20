@@ -13,7 +13,8 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError("⏳")
+    
     const result = await signIn('credentials', {
       mail: eMail,
       password: password,
