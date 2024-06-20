@@ -13,7 +13,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("⏳")
+    setError("🔄")
     
     const result = await signIn('credentials', {
       mail: eMail,
@@ -28,7 +28,10 @@ export default function Login() {
       setError("Hatalı kullanıcı adı veya şifre");
     }
   };
-
+  const handleGoogleSignIn = async () => {
+    setError("🔄")
+    await signIn('google', { callbackUrl: '/' });
+  };
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold">Login</h1>
@@ -61,13 +64,19 @@ export default function Login() {
           Login with Credentials
         </button>
       </form>
+      <button
+        onClick={handleGoogleSignIn}
+        className="mt-2 p-2 bg-red-500 text-white"
+      >
+        Login with Google
+      </button>
       <div>
    
-      <Link href="../auth/register" className='text-blue-500'>
+      <Link href="register" className='text-blue-500'>
         Sign Up
       </Link>
       <br/>
-      <Link href="../auth/forgetPass" className='text-blue-500'>
+      <Link href="forgetPass" className='text-blue-500'>
           Forgot Password
       </Link>
 

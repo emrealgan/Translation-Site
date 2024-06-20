@@ -17,7 +17,6 @@ const languages = [
   { code: 'so', name: 'Soomaali' }, 
   { code: 'tr', name: 'Türkçe' }  
 ];
-  
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -33,6 +32,8 @@ export default function Home() {
     return (<div>You are not authenticated.</div>);
   }
   const mail = session.user.email;
+  const provider = session.user.provider;
+
   const handleTranslate = async () => {
     setTranslatedText('⏳');
     try {
@@ -57,18 +58,21 @@ export default function Home() {
       setTranslatedText('Translation failed');
     }
   };
+  console.log(provider)
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center p-2">
         <h1 className="text-2xl font-bold">Mütercim</h1>
         <div className="flex space-x-4 items-center">
-          <Link
-            href="/history"
-            className="text-center h-10 w-28 bg-green-500 text-white rounded-md text-sm"
-          >
-            Translation History
-          </Link>
+        {provider === 'credentials' && (
+            <Link
+              href="/history"
+              className="text-center h-10 w-28 bg-green-500 text-white rounded-md text-sm"
+            >
+              Translation History
+            </Link>
+          )}
           <button
             className="text-center h-10 w-20 bg-red-500 text-white rounded-md text-sm"
             onClick={() => signOut()}
@@ -77,7 +81,6 @@ export default function Home() {
           </button>
         </div>
       </div>
-
 
       <textarea
         className="w-full p-2 border"
