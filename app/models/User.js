@@ -10,7 +10,7 @@ const dataSchema = new Schema({
   },
   password: {
     type: String,
-    required: false,
+    required: true,
     trim: true
   },
   translatedText: [{
