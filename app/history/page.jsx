@@ -15,7 +15,7 @@ export default function History() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ mail: session.user.email }),
+            body: JSON.stringify({ mail: session.user.email, provider: session.user.provider }),
           });
 
           if (!res.ok) {

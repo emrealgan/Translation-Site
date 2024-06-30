@@ -10,7 +10,7 @@ const dataSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   translatedText: [{
@@ -23,5 +23,24 @@ const dataSchema = new Schema({
 })
 
 const User = mongoose.models.User || mongoose.model('User', dataSchema);
-export default User;
+
+const OAuthSchema = new Schema({
+  mail: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true
+  },
+  translatedText: [{
+    originalText: { type: String, required: true },
+    translatedText: { type: String, required: true },
+    sourceLanguage: { type: String, required: true },
+    targetLanguage: { type: String, required: true },
+    date: { type: Date, default: Date.now }
+  }]
+})
+
+const userOAuth = mongoose.models.userOAuth || mongoose.model('userOAuth', OAuthSchema);
+export {User, userOAuth} 
 

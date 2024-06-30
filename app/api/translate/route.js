@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { connectDB, disconnectDB } from "@/app/lib/db";
-import User from "@/app/models/User";
+import { User, userOAuth } from "@/app/models/User";
 
 export async function POST(req) {
   try {
@@ -18,21 +18,23 @@ export async function POST(req) {
       return new Response('Error from OpenAI API', { status: 500 });
     }
     const translatedText = resp.message.content;
-    if(provider === "credentials"){
-      await connectDB();
-      const user = await User.findOne({ mail: mail });
-      if (user) {
-        user.translatedText.push({
-        originalText: text,
-        translatedText,
-        sourceLanguage,
-        targetLanguage
-      });
+    await connectDB();
+    let user;
+    if(provider === "google")
+      user = await userOAuth.findOne({ mail: mail });
+    else
+      user = await User.findOne({ mail: mail });
+    if (user) {
+      user.translatedText.push({
+      originalText: text,
+      translatedText,
+      sourceLanguage,
+      targetLanguage
+    });
       await user.save();
       await disconnectDB();
-      }
     }
-
+    
     return new Response(JSON.stringify({ translatedText }), {
       headers: { 'Content-Type': 'application/json' },
     });

@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { connectDB, disconnectDB } from '@/app/lib/db';
-import User from '@/app/models/User';
+import { User, userOAuth } from '@/app/models/User';
 
 const handler = NextAuth({
   
@@ -40,15 +40,31 @@ const handler = NextAuth({
   callbacks: {
     async session({ session, token }) {
       session.user.provider = token.provider;
+      if (token.email) {
+        session.user.email = token.email;
+      }
       return session;
     },
-    async jwt({ token, account }) {
+    async jwt({ token, account, user }) {
       if (account) {
         token.provider = account.provider;
+        token.email = user.email; // Ensure user is defined here
       }
       return token;
     },
+  async signIn({ user, account }) {
+    if (account.provider === 'google') {
+      await connectDB();
+      let existingUser = await userOAuth.findOne({ mail: user.email });
+      if (!existingUser) {
+        existingUser = new userOAuth({ mail: user.email, translatedText: [] });
+        await existingUser.save();
+      }
+      await disconnectDB();
+    }
+    return true;
   },
+},
   pages: {
     signIn: "/auth/login",
   }

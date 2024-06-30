@@ -1,13 +1,17 @@
 import { connectDB, disconnectDB } from '@/app/lib/db';
-import User from '@/app/models/User';
+import { User, userOAuth } from '@/app/models/User';
 
 export async function POST(req) {
   const body = await req.json();  
-  const { mail } = body;  
+  const { mail, provider } = body;  
 
   try {
     await connectDB();
-    const user = await User.findOne({ mail: mail });
+    let user;
+    if(provider === 'google')
+      user = await userOAuth.findOne({ mail: mail })
+    else
+      user = await User.findOne({ mail: mail });
     await disconnectDB();
 
     if (!user) {
