@@ -42,7 +42,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text, sourceLanguage, targetLanguage, mail }),
+        body: JSON.stringify({ text, sourceLanguage, targetLanguage, mail, provider }),
       });
 
       if (!res.ok) {
