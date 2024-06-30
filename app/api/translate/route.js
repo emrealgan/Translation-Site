@@ -9,7 +9,7 @@ export async function POST(req) {
 
     const completion = await openai.chat.completions.create({
       messages: [{ role: "user", content: `Translate this text from ${sourceLanguage} to ${targetLanguage}: ${text}` }],
-      model: "gpt-4",
+      model: "gpt-4o",
     });
     const resp = completion.choices[0];    
 
