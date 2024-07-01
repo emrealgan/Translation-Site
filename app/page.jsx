@@ -35,6 +35,10 @@ export default function Home() {
   const provider = session.user.provider;
 
   const handleTranslate = async () => {
+    if (text.length > 4096) {
+      setTranslatedText('Please enter a shorter text');
+      return;
+    }
     setTranslatedText('⏳');
     try {
       const res = await fetch('/api/translate', {
@@ -53,7 +57,8 @@ export default function Home() {
 
       const data = await res.json();
       setTranslatedText(data.translatedText);
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error in handleTranslate:', error);
       setTranslatedText('Translation failed');
     }

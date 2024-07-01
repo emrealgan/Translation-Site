@@ -1,14 +1,18 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const RESEND_FROM = 'onboarding@resend.dev'; // Use a verified sender email address
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
-const verificationCodes = {}; // Temporary storage for the verification codes
-
-// Function to generate a random 4-digit code
 function generateVerificationCode() {
-  return Math.floor(1000 + Math.random() * 9000); // Generates a 4-digit number
+  return Math.floor(100000 + Math.random() * 900000);
 }
 
 export async function POST(req) {
@@ -20,23 +24,22 @@ export async function POST(req) {
   }
 
   const code = generateVerificationCode();
-  verificationCodes[mail] = code;
 
-  const emailData = {
-    from: RESEND_FROM,
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
     to: mail,
     subject: 'Verification Code',
-    html: `<p>Your verification code is: <strong>${code}</strong></p>`, // Use HTML to bold the code
+    html: `<p>Your verification code is: <strong>${code}</strong></p>`, 
   };
 
   try {
-    const response = await resend.emails.send(emailData);
+    const response = await transporter.sendMail(mailOptions);
 
-    if (response.success) {
+    if (response.accepted.length > 0) {
       return NextResponse.json({ success: true });
     } 
     else {
-      console.error('Failed to send email:', response.error);
+      console.error('Failed to send email:', response);
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
     }
   } 
@@ -45,3 +48,5 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }
+
+
