@@ -1,15 +1,7 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import mailjet from 'node-mailjet';
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+const mailjetClient = mailjet.apiConnect(process.env.MAILJET_API_KEY, process.env.MAILJET_API_SECRET);
 
 function generateVerificationCode() {
   return Math.floor(100000 + Math.random() * 900000);
@@ -25,28 +17,40 @@ export async function POST(req) {
 
   const code = generateVerificationCode();
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: mail,
-    subject: 'Verification Code',
-    html: `<p>Your verification code is: <strong>${code}</strong></p>`, 
+  const emailData = {
+    Messages: [
+      {
+        From: {
+          Email: "alganemre.8@gmail.com",
+          Name: "Mutercim"
+        },
+        To: [
+          {
+            Email: mail,
+            Name: "Recipient"
+          }
+        ],
+        Subject: "Verification Code",
+        HTMLPart: `<p>Your verification code is: <strong>${code}</strong></p>`
+      }
+    ]
   };
 
   try {
-    const response = await transporter.sendMail(mailOptions);
+    const request = mailjetClient.post("send", { version: 'v3.1' }).request(emailData);
+    const result = await request;
 
-    if (response.accepted.length > 0) {
+    console.log('Mailjet API response:', result.body); // Logging the result
+
+    if (result.body.Messages[0].Status === 'success') {
       return NextResponse.json({ success: true });
-    } 
-    else {
-      console.error('Failed to send email:', response);
+    } else {
+      console.error('Failed to send email:', result.body);
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
     }
-  } 
-  catch (error) {
+  } catch (error) {
     console.error('Failed to send email:', error);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }
-
 
