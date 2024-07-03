@@ -7,8 +7,8 @@ const nextConfig = {
     MONGO_URL: 'mongodb+srv://admin:Cny6ZkfEPOXLZm37@mutercim.s7mccpu.mongodb.net/',
     GOOGLE_CLIENT_ID: '1030311588922-209kdgqr0t0qbglc6kram9r8o3i51fp1.apps.googleusercontent.com',
     GOOGLE_CLIENT_SECRET: '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',
-    EMAIL_USER: 'emrealgan321@gmail.com',
-    EMAIL_PASS: 'kjivcodipbdfqzzr'   
+    EMAIL_USER: 'alganemre8@gmail.com',
+    EMAIL_PASS: 'zolpvumltqhqtfpz'   
   }
 };
 
