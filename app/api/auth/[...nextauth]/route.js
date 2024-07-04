@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { connectDB, disconnectDB } from '@/app/lib/db';
 import { User, userOAuth } from '@/app/models/User';
+import bcrypt from 'bcryptjs'; // Import bcrypt for password hashing
 
 const handler = NextAuth({
   
@@ -16,11 +17,17 @@ const handler = NextAuth({
       authorize: async (credentials) => {
         try {
           await connectDB();
-          const user = await User.findOne({ mail: credentials.mail, password: credentials.password });
+          const user = await User.findOne({ mail: credentials.mail });
           await disconnectDB();
 
           if (user) {
-            return { email: user.mail, provider: 'credentials' };
+            const passwordMatch = await bcrypt.compare(credentials.password, user.password);
+            if (passwordMatch) {
+              return { email: user.mail, provider: 'credentials' };
+            } 
+            else {
+              return null; // Passwords don't match
+            }
           } 
           else {
             return null;

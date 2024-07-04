@@ -1,4 +1,3 @@
-// app/layout.js
 import '../styles/global.css';
 import React from 'react';
 import SessionProviderWrapper from '@/app/lib/SessionProvider';

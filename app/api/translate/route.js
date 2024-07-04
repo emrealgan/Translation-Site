@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { connectDB, disconnectDB } from "@/app/lib/db";
 import { User, userOAuth } from "@/app/models/User";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
@@ -15,7 +16,7 @@ export async function POST(req) {
 
     if (!resp) {
       console.error('Error from OpenAI API: No response');
-      return new Response('Error from OpenAI API', { status: 500 });
+      return new NextResponse('Error from OpenAI API', { status: 500 });
     }
     const translatedText = resp.message.content;
     await connectDB();
@@ -35,12 +36,12 @@ export async function POST(req) {
       await disconnectDB();
     }
     
-    return new Response(JSON.stringify({ translatedText }), {
+    return new NextResponse(JSON.stringify({ translatedText }), {
       headers: { 'Content-Type': 'application/json' },
     });
   } 
   catch (error) {
     console.error('Error in POST handler:', error);
-    return new Response('Internal Server Error', { status: 500 });
+    return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

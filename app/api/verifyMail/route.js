@@ -43,12 +43,14 @@ export async function POST(req) {
     console.log('Mailjet API response:', result.body); // Logging the result
 
     if (result.body.Messages[0].Status === 'success') {
-      return NextResponse.json({ success: true });
-    } else {
+      return NextResponse.json({code: code});
+    } 
+    else {
       console.error('Failed to send email:', result.body);
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
     }
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Failed to send email:', error);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
