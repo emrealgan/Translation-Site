@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -24,6 +24,7 @@ export default function Home() {
   const [translatedText, setTranslatedText] = useState('');
   const [sourceLanguage, setSourceLanguage] = useState(languages[3].code);
   const [targetLanguage, setTargetLanguage] = useState(languages[11].code);
+  const fileInputRef = useRef(null);
 
   if (status === "loading") {
     return ( <div>Loading...</div> );
@@ -63,7 +64,16 @@ export default function Home() {
       setTranslatedText('Translation failed');
     }
   };
-  console.log(provider)
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setText(event.target.result);
+      };
+      reader.readAsText(file);
+    }
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -115,12 +125,28 @@ export default function Home() {
           ))}
         </select>
       </div>
-      <button
-        className="flex items-center justify-center text-center mt-2 p-2 h-8 w-16 bg-blue-500 text-white rounded-md text-sm"
-        onClick={handleTranslate}
-      >
-        Çevir
-      </button>
+      <div className="flex justify content items-center">
+        <button
+          className="flex items-center justify-center text-center mt-2 p-2 h-8 w-16 bg-gray-500 text-white rounded-md text-sm"
+          onClick={() => fileInputRef.current.click()}
+        >
+          📂
+        </button>
+        <input
+          id="fileInput"
+          ref={fileInputRef}
+          type="file"
+          accept=".txt"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+        <button
+          className="flex items-center justify-center text-center ml-1 mt-2 p-2 h-8 w-16 bg-blue-500 text-white rounded-md text-sm"
+          onClick={handleTranslate}
+        >
+          Çevir
+        </button>
+      </div>
       {translatedText && (
         <div className="mt-4 p-2 border">
           <h2 className="text-xl">Çeviri Sonucu:</h2>

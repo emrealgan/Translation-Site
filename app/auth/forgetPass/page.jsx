@@ -61,11 +61,11 @@ export default function ForgetPass() {
       setError("Kod yanlış");
     }
   };
-  const handlePasswordChange = () => {
-    if (newPassword.length >= 8 && /[A-Z]/.test(newPassword)) {
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+    if (value.length >= 8 && /[A-Z]/.test(value)) {
       setPasswordValid(true);
-    } 
-    else {
+    } else {
       setPasswordValid(false);
     }
   };
@@ -125,10 +125,7 @@ export default function ForgetPass() {
             className='p-2 border'
             type="password"
             value={newPassword}
-            onChange={(e) => {
-              setNewPassword(e.target.value);
-              handlePasswordChange();
-            }}
+            onChange={(e) => handlePasswordChange(e.target.value)}
             placeholder="Yeni Şifre"
             required
           />
@@ -137,10 +134,7 @@ export default function ForgetPass() {
             className='p-2 border'
             type="password"
             value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
-              handlePasswordChange();
-            }}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Yeni Şifreyi Onayla"
             required
           />
