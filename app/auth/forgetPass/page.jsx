@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import SixInputsForm from '@/Components/SixInputsForm';
 import { useRouter } from 'next/navigation';
+import TranslateImage from '@/Components/TranslateImage';
 
 export default function ForgetPass() {
   const [eMail, setEMail] = useState('');
@@ -40,15 +41,15 @@ export default function ForgetPass() {
         setCode(verifyData.code)
         if (verifyResponse.ok) {
           setShowCodeInput(true);
-        } 
+        }
         else {
           setError(verifyResponse.error || "Kod gönderilemedi");
         }
-      } 
+      }
       else {
         setError("Mail adresi bulunamadı");
       }
-    } 
+    }
     catch (error) {
       setError("Bir hata oluştu: " + error.message);
     }
@@ -62,7 +63,7 @@ export default function ForgetPass() {
     }
   };
   const handlePasswordChange = (value) => {
-    setPassword(value);
+    setNewPassword(value);
     if (value.length >= 8 && /[A-Z]/.test(value)) {
       setPasswordValid(true);
     } else {
@@ -75,7 +76,7 @@ export default function ForgetPass() {
       setError("Şifreler eşleşmiyor");
       return;
     }
-    
+
     try {
       const response = await fetch('/api/resetPassword', {
         method: 'POST',
@@ -98,64 +99,69 @@ export default function ForgetPass() {
   };
 
   return (
-    <div>
-      {!showCodeInput && !showPasswordInput && (
-        <form onSubmit={handleEmailSubmit}>
-          <input
-            className='p-2 border'
-            type="email"
-            value={eMail}
-            onChange={(e) => setEMail(e.target.value)}
-            placeholder="Email"
-            required
+    <div className="container flex flex-row p-4 h-screen w-full">
+      <TranslateImage/>
+      <div className='w-1/2 h-full pl-16 pt-64'>
+        {!showCodeInput && !showPasswordInput && (
+          <form onSubmit={handleEmailSubmit} className='h-60 w-3/5'>
+            <input
+              className="h-8 w-full p-2 border"
+              type='email'
+              value={eMail}
+              onChange={(e) => setEMail(e.target.value)}
+              placeholder="Email"
+            />
+            <br />
+            <button 
+              className='ml-60 my-8 p-2 text-gray-600 bg-blue-300 hover:bg-blue-200 h-10 w-2/5 rounded-lg' 
+              type="submit"
+            >
+              Gönder
+            </button>
+          </form>
+        )}
+        {showCodeInput && !showPasswordInput && (
+          <SixInputsForm
+            code={code}
+            onVerification={handleVerification}
           />
-          <br/>
-          <button className='mt-2 p-2 bg-blue-500 text-white' type="submit">Gönder</button>
-        </form>
-      )}
-      {showCodeInput && !showPasswordInput && (
-        <SixInputsForm
-          code={code}
-          onVerification={handleVerification}
-        />
-      )}
-      {showPasswordInput && (
-        <form onSubmit={handlePasswordSubmit}>
-          <input
-            className='p-2 border'
-            type="password"
-            value={newPassword}
-            onChange={(e) => handlePasswordChange(e.target.value)}
-            placeholder="Yeni Şifre"
-            required
-          />
-          <br/>
-          <input
-            className='p-2 border'
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Yeni Şifreyi Onayla"
-            required
-          />
-          <br/>
-          {!passwordValid && newPassword.length > 0 && (
-            <p className="w-18 h-4 py-2 text-s">
-              The password must be at least 8 characters and contain at least one uppercase letter.
-            </p>
-          )}
+        )}
+        {showPasswordInput && (
+          <form onSubmit={handlePasswordSubmit}>
+            <input
+              className="h-8 w-1/2 p-2 border"
+              type="password"
+              value={newPassword}
+              onChange={(e) => handlePasswordChange(e.target.value)}
+              placeholder="Yeni Şifre"
+            />
+            <br />
+            <input
+              className="h-8 w-1/2 p-2 border"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Yeni Şifreyi Onayla"
+            />
+            <br />
+            {!passwordValid && newPassword.length > 0 && (
+              <p className="w-1/2 h-4 p-2 text-xs text-gray-900">
+                The password must be at least 8 characters and contain at least one uppercase letter.
+              </p>
+            )}
 
-          <br/>
-          <button 
-            className={`mt-2 p-2 bg-blue-500 text-white ${
-              newPassword !== confirmPassword || !passwordValid ? 'opacity-50 cursor-not-allowed' : ''
-            }`} 
-            type="submit"
-            disabled={newPassword !== confirmPassword || !passwordValid}
-          >Şifreyi Sıfırla</button>
-        </form>
-      )}
-      {error && <p>{error}</p>}
+            <br />
+            <button
+              className={`ml-60 mt-4 p-2 text-gray-600 bg-blue-300 hover:bg-blue-200 rounded-lg
+                ${newPassword !== confirmPassword || !passwordValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+              type="submit"
+              disabled={newPassword !== confirmPassword || !passwordValid}
+            >Şifreyi Sıfırla</button>
+          </form>
+        )}
+        {error && <p className='text-red-200'>{error}</p>}
+      </div>
+
     </div>
   );
 }
