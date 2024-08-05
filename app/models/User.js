@@ -18,6 +18,7 @@ const dataSchema = new Schema({
     translatedText: { type: String, required: true },
     sourceLanguage: { type: String, required: true },
     targetLanguage: { type: String, required: true },
+    isStar: {type: Boolean, default: false},
     date: { type: Date, default: Date.now }
   }]
 })
@@ -37,6 +38,7 @@ const OAuthSchema = new Schema({
     translatedText: { type: String, required: true },
     sourceLanguage: { type: String, required: true },
     targetLanguage: { type: String, required: true },
+    isStar: {type: Boolean, default: false},
     date: { type: Date, default: Date.now }
   }]
 })
