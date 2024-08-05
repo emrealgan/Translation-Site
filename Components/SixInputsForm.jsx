@@ -39,27 +39,22 @@ const SixInputsForm = ({ code, onVerification }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className='flex mt-2'>
         {inputs.map((input, index) => (
           <div key={index}>
             <input
-            className='bg-gray-100'
+              className='bg-gray-100 w-10 text-center mr-2'
               ref={(ref) => (inputRefs.current[index] = ref)}
               type="text"
               value={input}
               onChange={(event) => handleChange(index, event)}
-              style={{
-                width: '30px',
-                textAlign: 'center',
-                marginRight: '10px',
-              }}
               maxLength="1"
               required
             />
           </div>
         ))}
       </div>
-      <button className='mt-2 p-2 bg-blue-500 text-white' type="submit">Doğrula</button>
+      <button className='ml-24 my-8 p-2 text-gray-600 bg-blue-300 hover:bg-blue-200 h-10 w-1/4 rounded-lg' type="submit">Doğrula</button>
     </form>
   );
 };
