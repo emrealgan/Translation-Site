@@ -11,6 +11,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.19",
     "bcryptjs": "^2.4.3",
+    "materialize-css": "^1.0.0",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
