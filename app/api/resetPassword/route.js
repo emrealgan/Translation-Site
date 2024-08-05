@@ -1,3 +1,4 @@
+"use server"
 import { connectDB, disconnectDB } from '@/app/lib/db';
 import { NextResponse } from 'next/server';
 import { User } from '@/app/models/User';
