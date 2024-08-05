@@ -1,3 +1,4 @@
+"use server"
 import { connectDB, disconnectDB } from '@/app/lib/db';
 import { User, userOAuth } from '@/app/models/User';
 import { NextResponse } from 'next/server';
@@ -18,8 +19,12 @@ export async function POST(req) {
     if (!user) {
       return new NextResponse('User not found', { status: 404 });
     }
-
-    return new NextResponse(JSON.stringify({ history: user.translatedText }), {
+    if(user.translatedText.length === 0 )
+      return new NextResponse(JSON.stringify({ history: [] }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    
+      return new NextResponse(JSON.stringify({ history: user.translatedText }), {
       headers: { 'Content-Type': 'application/json' },
     });
   } 
