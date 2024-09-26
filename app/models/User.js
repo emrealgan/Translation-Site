@@ -13,7 +13,15 @@ const dataSchema = new Schema({
     required: true,
     trim: true
   },
-  translatedText: [{
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  text: [{
     originalText: { type: String, required: true },
     translatedText: { type: String, required: true },
     sourceLanguage: { type: String, required: true },

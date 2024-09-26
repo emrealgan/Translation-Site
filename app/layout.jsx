@@ -1,19 +1,19 @@
-import '../styles/global.css';
-import React from 'react';
-import SessionProviderWrapper from '@/app/lib/SessionProvider';
+import "@/styles/global.css";
+import React from "react";
+import SessionProviderWrapper from "@/app/lib/SessionProvider";
 
 export const metadata = {
   title: "Mütercim",
-  description: "",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <SessionProviderWrapper>
-          {children}
-        </SessionProviderWrapper>
+    <html lang="en" className="w-full h-full">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+      <body className="w-full h-full">
+        <SessionProviderWrapper>{children}</SessionProviderWrapper>
       </body>
     </html>
   );

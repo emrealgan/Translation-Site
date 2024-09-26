@@ -7,15 +7,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'sm': '320px',     // Small screens (phones)
+        '2xl': '2560px'
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      colors: {
-        'c8e6fc': '#C8E6FC',
-        'f4f7fc': '#F4F7FC',
-        'd3e3fd': '#D3E3FD'
+      fontSize: {
+        '2xs': '0.5rem',
       },
     },
   },

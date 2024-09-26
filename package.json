@@ -11,20 +11,25 @@
   "dependencies": {
     "autoprefixer": "^10.4.19",
     "bcryptjs": "^2.4.3",
-    "materialize-css": "^1.0.0",
+    "docx": "^8.5.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "mammoth": "^1.8.0",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
-    "node-mailjet": "^6.0.5",
+    "node-mailjet": "^6.0.4",
     "openai": "^4.0.0",
-    "react": "^18",
+    "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
     "webpack": "^5.92.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@babel/node": "^7.24.7",
     "@babel/preset-env": "^7.24.7",
+    "@types/react": "^18.3.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
   }
